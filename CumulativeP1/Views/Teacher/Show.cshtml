@@ -1,0 +1,13 @@
+﻿@model CumulativeP1.Models.Teacher
+@{
+    ViewBag.Title = "Show";
+}
+
+<h1>Detailed Teacher Information</h1>
+<p><em>Please adhere to the Faculty Employee Code and keep the following information confidential.</em></p>
+<figure>
+    <div>Name: <figurecaption class="highlight"><h3>@Model.TeacherName</h3></figurecaption></div>
+    <div>EmployeeID: <h3>@Model.EmployeeNumber</h3></div>
+    <div>Hire Date: <h3>@Model.TeacherHireDate</h3></div>
+    <div>Salary: <h3>@Model.TeacherSalary</h3></div>
+</figure>
