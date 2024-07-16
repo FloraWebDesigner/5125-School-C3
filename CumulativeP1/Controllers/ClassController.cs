@@ -9,10 +9,10 @@ namespace CumulativeP1.Controllers
 {
     public class ClassController : Controller
     {
-        // GET: Class/show/{classid}
+        // POST: Class/show/{classid}
         public ActionResult Show(int ClassId)
         {
-                        
+
             // work with the class data controller
             ClassDataController Controller = new ClassDataController();
 
@@ -24,7 +24,7 @@ namespace CumulativeP1.Controllers
             return View(NewStudent);
         }
 
-        // POST: class/list/{SearchKey?}
+        // GET: class/list/{SearchKey?}
         public ActionResult List(string SearchKey=null)
         {
             // work with the class data controller

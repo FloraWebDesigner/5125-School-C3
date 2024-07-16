@@ -13,7 +13,7 @@ namespace CumulativeP1.Models
         public string TeacherName { get; set; }
         public string EmployeeNumber { get; set; }
         public decimal TeacherSalary { get; set; }
-        public DateTime TeacherHireDate { get; set; }
+        public string TeacherHireDate { get; set; }
         public int TeacherId { get; set; }
         public string ClassName { get; set; }
         public string ClassCode {  get; set; }

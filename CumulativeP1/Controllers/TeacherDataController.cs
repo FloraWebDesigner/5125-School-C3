@@ -62,7 +62,7 @@ namespace CumulativeP1.Controllers
                 string TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
                 string EmployeeNumber = Convert.ToString(ResultSet["employeenumber"]);
                 decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
-                DateTime TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
+                string TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]).ToShortDateString();
                 int TeacherId = (int)ResultSet["teacherid"];
 
 
@@ -127,7 +127,7 @@ namespace CumulativeP1.Controllers
                 string TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
                 string EmployeeNumber = Convert.ToString(ResultSet["employeenumber"]);
                 decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
-                DateTime TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
+                String TeacherHireDate = ((DateTime)ResultSet["hiredate"]).ToShortDateString();
                 TeacherId = (int)ResultSet["teacherid"];
 
                 // use Loop to get data from database class table, seems one-to-many relationship...
@@ -147,8 +147,10 @@ namespace CumulativeP1.Controllers
                 NewTeacher.TeacherHireDate = TeacherHireDate;
                 NewTeacher.EmployeeNumber = EmployeeNumber;
                 NewTeacher.TeacherId = TeacherId;
-                NewTeacher.ClassCode = ClassCode;
-                NewTeacher.ClassName= ClassName;
+                if (ClassCode == null || ClassCode=="") { NewTeacher.ClassCode = "Not Assigned"; }
+                else { NewTeacher.ClassCode = ClassCode; }
+                if (ClassName == null || ClassName == "") { NewTeacher.ClassName = "Not Assigned"; }
+                else { NewTeacher.ClassName = ClassName; }
 
                 // Unable to get multiple classes...
 

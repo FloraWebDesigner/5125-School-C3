@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using CumulativeP1.Models;
+using Microsoft.Ajax.Utilities;
 using MySql.Data.MySqlClient;
 
 namespace CumulativeP1.Controllers
@@ -86,7 +87,7 @@ namespace CumulativeP1.Controllers
 
 
         ///<summary>
-        ///POST api/StudentData/FindStudent/{classid}
+        ///POST api/ClassData/FindStudent/{classid}
         ///To access a list of students and their properties, including StudentNumber,StudentName,Enroldate.
         ///</summary>
         ///<param name="ClassId">use classid to find students information</param>
@@ -100,9 +101,10 @@ namespace CumulativeP1.Controllers
         ///</returns>
         [HttpPost]
         // I'd like to change to post, seems the url refers to the one I defined in the view, still show up the classid on the browser... 
-        [Route("api/StudentData/FindStudent/{ClassId}")]
+        [Route("api/ClassData/FindStudent/{ClassId?}")]
         public List<Student> FindStudent(int ClassId)
         {
+            
             //Create an instance of a connection
             MySqlConnection Connection = School.AccessDatabase();
 
@@ -114,7 +116,7 @@ namespace CumulativeP1.Controllers
 
             //SQL QUERY
             Command.CommandText = "SELECT * FROM studentsxclasses LEFT JOIN classes ON classes.classid = studentsxclasses.classid LEFT JOIN students ON students.studentid = studentsxclasses.studentid WHERE classes.classid = @id";
-            Command.Parameters.AddWithValue("@id", ClassId);
+            Command.Parameters.AddWithValue("@id",ClassId);
             Command.Prepare();
 
 

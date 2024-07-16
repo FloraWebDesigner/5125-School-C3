@@ -35,7 +35,7 @@
                 <td>@classes.ClassName</td>
                 <td>@classes.StartDate</td>
                 <td>@classes.FinishDate</td>
-                <td><a href="@Url.Action("Show", "Class", new { ClassId = classes.ClassId })">Check Student Enrolment</a></td>
+                <td><a href="@Url.Action("Show", "Class", new { ClassId = classes.ClassId.ToString() })">Check Student Enrolment</a></td>
             </tr>
         }
     </tbody>
