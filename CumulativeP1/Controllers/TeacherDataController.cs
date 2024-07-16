@@ -15,16 +15,21 @@ namespace CumulativeP1.Controllers
         // The database context class which allows us to access our MySQL Database.
         private SchoolDbContext School = new SchoolDbContext();
 
-        // This Controller will access the teacher table of our school database.
+        // This Controller will use a search function to access the teacher table of our school database.
+
         ///<summary>
-        ///Returns a list of teachers' properties in the system
+        /// Returns a list of teachers' names in the system according to the search key
         /// </summary>
-        /// <example>
-        /// GET api/TeacherData/ListTeachers
-        /// </example>
+        /// <param name="SearchKey">search key for teacher's names.</param>
         /// <returns>
-        /// A list of teachers' name, employee number, hire date and salary
+        /// GET api/TeacherData/ListTeachers/{SearchKey}
+        /// One or a list of teachers' names.
         /// </returns>
+        /// <example>
+        /// SearchKey="AL"or "ale";case insensitive and key words in the name.
+        /// return Alexander Bennett;
+        /// </example>
+
 
         [HttpGet]
         [Route("api/TeacherData/ListTeachers/{SearchKey}")]
@@ -32,7 +37,7 @@ namespace CumulativeP1.Controllers
         {
             // Create an instance of a connection
             MySqlConnection Connection = School.AccessDatabase();
-            Debug.WriteLine("I want to search " + SearchKey);
+
             // Open the connection between the web server and database
             Connection.Open();
 
@@ -58,7 +63,7 @@ namespace CumulativeP1.Controllers
                 string EmployeeNumber = Convert.ToString(ResultSet["employeenumber"]);
                 decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
                 DateTime TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
-                int TeacherID = (int)ResultSet["teacherid"];
+                int TeacherId = (int)ResultSet["teacherid"];
 
 
                 Teacher NewTeacher = new Teacher();
@@ -66,7 +71,7 @@ namespace CumulativeP1.Controllers
                 NewTeacher.TeacherSalary= TeacherSalary;
                 NewTeacher.TeacherHireDate= TeacherHireDate;
                 NewTeacher.EmployeeNumber= EmployeeNumber;
-                NewTeacher.TeacherID = TeacherID;
+                NewTeacher.TeacherId = TeacherId;
 
                 // Add the Teacher elements to the List
                 Teachers.Add(NewTeacher);
@@ -80,12 +85,24 @@ namespace CumulativeP1.Controllers
 
         }
 
+        /// <summary>
+        /// This controller will access to a teacher's name, employee number, hire date, salary, classid and classname.
+        /// </summary>
+        /// <param name="TeacherId">the primary key in the database</param>
+        /// <returns>one teacher's properties.</returns>
+        /// <example>
+        /// api/TeacherData/FindTeacher/7
+        /// TeacherId=7
+        /// Name:Shannon Barton;Employee ID:T397;Hire Date:2013-08-04 12:00:00 AM;Salary:64.70;Class ID:http5104;Course:Digital Design
+        /// </example>
+
+
         [HttpGet]
-        [Route("api/TeacherData/FindTeacher")]
+        [Route("api/TeacherData/FindTeacher/{TeacherId}")]
         public Teacher FindTeacher(int TeacherId)
         {
             Teacher NewTeacher = new Teacher();
-
+            
             // Create an instance of a connection
             MySqlConnection Connection = School.AccessDatabase();
 
@@ -96,7 +113,7 @@ namespace CumulativeP1.Controllers
             MySqlCommand Command = Connection.CreateCommand();
 
             //SQL QUERY
-            Command.CommandText = "SELECT * FROM teachers WHERE teacherid = @id";
+            Command.CommandText = "SELECT * FROM teachers LEFT JOIN classes ON classes.teacherid = teachers.teacherid WHERE teachers.teacherid = @id";
 
             // Use @key to avoid error outcome of special symbol
             Command.Parameters.AddWithValue("@id",TeacherId);
@@ -105,23 +122,38 @@ namespace CumulativeP1.Controllers
             MySqlDataReader ResultSet = Command.ExecuteReader();
 
             while (ResultSet.Read())
-            {
+            {   
+                // use Loop to get data from database teacher table
                 string TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
                 string EmployeeNumber = Convert.ToString(ResultSet["employeenumber"]);
                 decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
                 DateTime TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
-                int TeacherID = (int)ResultSet["teacherid"];
+                TeacherId = (int)ResultSet["teacherid"];
+
+                // use Loop to get data from database class table, seems one-to-many relationship...
+                // Class NewClass = new Class();
+                String ClassName = ResultSet["classname"].ToString();
+                String ClassCode = ResultSet["classcode"].ToString();
 
 
+                //NewClass.ClassCode = ClassCode;
+                //NewClass.ClassName = ClassName;
+                //NewClasses.Add(NewClass);
+
+      
+                // Add to New Teacher object
                 NewTeacher.TeacherName = TeacherName;
                 NewTeacher.TeacherSalary = TeacherSalary;
                 NewTeacher.TeacherHireDate = TeacherHireDate;
                 NewTeacher.EmployeeNumber = EmployeeNumber;
-                NewTeacher.TeacherID = TeacherID;
+                NewTeacher.TeacherId = TeacherId;
+                NewTeacher.ClassCode = ClassCode;
+                NewTeacher.ClassName= ClassName;
+
+                // Unable to get multiple classes...
 
             }
-
-            return NewTeacher;
+               return NewTeacher;
         }
     }
 }

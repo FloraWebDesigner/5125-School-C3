@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CumulativeP1.Models.Student>
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>List of Students</h2>
+<p>There are <strong>@Model.Count()</strong> students in this class.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Student Number</th>
+            <th>Student Name</th>
+            <th>Enroldate</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var student in Model)
+        {
+
+            <tr>
+                <td>@student.StudentNumber</td>
+                <td>@student.StudentName</td>
+                <td>@student.Enroldate</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+<a href="/Class/List">Back To Class</a>
+

@@ -13,12 +13,14 @@
 <!--initiave attempt!
     building a search bar-->
 <form method="post" action="/Teacher/List">
-    <div><input type="text" name="SearchKey" />
+    <div><input type="text" name="SearchKey" placeholder="please enter teacher's name" />
     <input type="submit" value="Search" id="submit"/></div>
 
 </form>
+
 @foreach (var teacher in Model)
 {
-    <div><a href="/Teacher/Show/@teacher.TeacherID">@teacher.TeacherName</a></div>
+    <div><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherName</a></div>
 }
-
+<p><h5>More</h5></p>
+<div>Click <a href="/Class/List">Here</a> to <strong>Class Overview</strong>.</div>
