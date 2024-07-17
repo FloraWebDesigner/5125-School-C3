@@ -155,7 +155,10 @@ namespace CumulativeP1.Controllers
                 // Unable to get multiple classes...
 
             }
-               return NewTeacher;
+            // Close the connection between the MySQL Database and the WebServer
+            Connection.Close();
+
+            return NewTeacher;
         }
     }
 }
