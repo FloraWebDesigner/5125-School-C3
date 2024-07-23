@@ -5,22 +5,29 @@
     //receive the List<Teacher>
     // Render the teacher information as HTML
 }
+<div class="navlink">
+    <a href="/Teacher/New">Add New Teacher</a>
+    <a href="/Class/List">Go to Class Overview</a>
+</div>
+<div class="main-content">
+    <h2>List of Teachers</h2>
+    <p>There are <strong class="highlight">@Model.Count()</strong> teachers in the school.</p>
+    <p>I'd like to search for @ViewData["SearchKey"]</p>
 
-<h2>List of Teachers</h2>
-<p>There are <strong>@Model.Count()</strong> teachers in the school.</p>
-<p>I'd like to search for @ViewData["SearchKey"]</p>
+    <!--initiave attempt!
+        building a search bar-->
+    <form method="post" action="/Teacher/List">
+        <div>
+            <input type="text" name="SearchKey" placeholder="please enter teacher's name" class="myinput"/>
+            <input type="submit" value="Search" id="submit" class="mybutton" />
+        </div>
 
-<!--initiave attempt!
-    building a search bar-->
-<form method="post" action="/Teacher/List">
-    <div><input type="text" name="SearchKey" placeholder="please enter teacher's name" />
-    <input type="submit" value="Search" id="submit"/></div>
+    </form>
 
-</form>
+    @foreach (var teacher in Model)
+    {
+        <div><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherName</a></div>
+    }
+</div>
 
-@foreach (var teacher in Model)
-{
-    <div><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherName</a></div>
-}
-<p><h5>More</h5></p>
-<div>Click <a href="/Class/List">Here</a> to <strong>Class Overview</strong>.</div>
+

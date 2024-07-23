@@ -2,32 +2,33 @@
 @{
     ViewBag.Title = "Show";
 }
+<div class="navlink"><a href="/Class/List">Back To Class</a></div>
+<div class="main-content">
+    <h2>List of Students</h2>
+    <p>There are <strong class="highlight">@Model.Count()</strong> students in this class.</p>
 
-<h2>List of Students</h2>
-<p>There are <strong>@Model.Count()</strong> students in this class.</p>
-
-<table>
-    <thead>
-        <tr>
-            <th>Student Number</th>
-            <th>Student Name</th>
-            <th>Enroldate</th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var student in Model)
-        {
-
+    <table>
+        <thead>
             <tr>
-                <td>@student.StudentNumber</td>
-                <td>@student.StudentName</td>
-                <td>@student.Enroldate</td>
+                <th>Student Number</th>
+                <th>Student Name</th>
+                <th>Enroldate</th>
             </tr>
+        </thead>
+        <tbody>
 
-        }
-    </tbody>
-</table>
+            @foreach (var student in Model)
+            {
 
-<a href="/Class/List">Back To Class</a>
+                <tr>
+                    <td>@student.StudentNumber</td>
+                    <td>@student.StudentName</td>
+                    <td>@student.Enroldate</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</div>
 

@@ -2,43 +2,45 @@
 @{
     ViewBag.Title = "List";
 }
+<div class="navlink"><a href="/Teacher/List">Click here to Teacher List.</a></div>
+<div class="main-content">
+    <h2>Class Overview</h2>
+    <p>There are <strong class="highlight">@Model.Count()</strong> classes in the school database.</p>
 
-<h2>Class Overview</h2>
-<p>There are <strong>@Model.Count()</strong> classes in the school database.</p>
+    <!--initiave attempt!
+        building a search bar-->
+    <form method="post" action="/Class/List">
+        <div>
+            <input type="text" name="SearchKey" placeholder="please enter class name" class="myinput"/>
+            <input type="submit" value="Search" id="submit" class="mybutton" />
+        </div>
 
-<!--initiave attempt!
-    building a search bar-->
-<form method="post" action="/Class/List">
-    <div>
-        <input type="text" name="SearchKey" placeholder="please enter class name"/>
-        <input type="submit" value="Search" id="submit" />
-    </div>
-
-</form>
-<p>I'd like to search for @ViewData["SearchKey"]</p>
-<table>
-    <thead>
-        <tr>
-            <th>Class Code</th>
-            <th>Class Name</th>
-            <th>Start Date</th>
-            <th>Finish Date</th>
-            <th>Students Enrolment</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!--I want to show students data from the link in class, so tricky, and found examples from StackOverFlow: https://stackoverflow.com/questions/6278694/url-action-parameters as a reference.  -->
-        @foreach (var classes in Model)
-        {
+    </form>
+    <p>I'd like to search for @ViewData["SearchKey"]</p>
+    <table>
+        <thead>
             <tr>
-                <td>@classes.ClassCode</td>
-                <td>@classes.ClassName</td>
-                <td>@classes.StartDate</td>
-                <td>@classes.FinishDate</td>
-                <td><a href="@Url.Action("Show", "Class", new { ClassId = classes.ClassId.ToString() })">Check Student Enrolment</a></td>
+                <th>Class Code</th>
+                <th>Class Name</th>
+                <th>Start Date</th>
+                <th>Finish Date</th>
+                <th>Students Enrolment</th>
             </tr>
-        }
-    </tbody>
-</table>
-<p><h5>More</h5></p>
-<p>Click <a href="/Teacher/List">here</a> to <strong>Teacher List</strong>.</p>
+        </thead>
+        <tbody>
+            <!--I want to show students data from the link in class, so tricky, and found examples from StackOverFlow: https://stackoverflow.com/questions/6278694/url-action-parameters as a reference.  -->
+            @foreach (var classes in Model)
+            {
+                <tr>
+                    <td>@classes.ClassCode</td>
+                    <td>@classes.ClassName</td>
+                    <td>@classes.StartDate</td>
+                    <td>@classes.FinishDate</td>
+                    <td><a href="@Url.Action("Show", "Class", new { ClassId = classes.ClassId.ToString() })">Check Student Enrolment</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+</div>

@@ -62,7 +62,7 @@ namespace CumulativeP1.Controllers
                 string TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
                 string EmployeeNumber = Convert.ToString(ResultSet["employeenumber"]);
                 decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
-                string TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]).ToShortDateString();
+                DateTime TeacherHireDate = Convert.ToDateTime(ResultSet["hiredate"]);
                 int TeacherId = (int)ResultSet["teacherid"];
 
 
@@ -122,12 +122,14 @@ namespace CumulativeP1.Controllers
             MySqlDataReader ResultSet = Command.ExecuteReader();
 
             while (ResultSet.Read())
-            {   
+            {
                 // use Loop to get data from database teacher table
+                string TeacherFname = ResultSet["teacherfname"].ToString();
+                string TeacherLname = ResultSet["teacherlname"].ToString();
                 string TeacherName = ResultSet["teacherfname"] + " " + ResultSet["teacherlname"];
                 string EmployeeNumber = Convert.ToString(ResultSet["employeenumber"]);
                 decimal TeacherSalary = Convert.ToDecimal(ResultSet["salary"]);
-                String TeacherHireDate = ((DateTime)ResultSet["hiredate"]).ToShortDateString();
+                DateTime TeacherHireDate = (DateTime)ResultSet["hiredate"];
                 TeacherId = (int)ResultSet["teacherid"];
 
                 // use Loop to get data from database class table, seems one-to-many relationship...
@@ -142,11 +144,16 @@ namespace CumulativeP1.Controllers
 
       
                 // Add to New Teacher object
+
                 NewTeacher.TeacherName = TeacherName;
                 NewTeacher.TeacherSalary = TeacherSalary;
                 NewTeacher.TeacherHireDate = TeacherHireDate;
                 NewTeacher.EmployeeNumber = EmployeeNumber;
                 NewTeacher.TeacherId = TeacherId;
+                // added on 7/22 in convenience to get new teacher
+                NewTeacher.TeacherFname = TeacherFname;
+                NewTeacher.TeacherLname = TeacherLname;
+
                 if (ClassCode == null || ClassCode=="") { NewTeacher.ClassCode = "Not Assigned"; }
                 else { NewTeacher.ClassCode = ClassCode; }
                 if (ClassName == null || ClassName == "") { NewTeacher.ClassName = "Not Assigned"; }
@@ -159,6 +166,78 @@ namespace CumulativeP1.Controllers
             Connection.Close();
 
             return NewTeacher;
+        }
+
+
+        /// <summary>
+        /// receive teacher information and add it to the database
+        /// </summary>
+        /// <returns></returns>
+        /// <example>
+        /// POST: api/TeacherData/AddTeacher ->{Teacher Object}
+        /// POST: CONTENT /REQUEST BODY:
+        /// {
+        /// Name:Shannon Barton;
+        /// Employee ID:T397;
+        /// Hire Date:2013-08-04 12:00:00 AM;
+        /// Salary:64.70;
+        /// Class ID:http5104;
+        /// Course:Digital Design
+        /// </example>
+        [HttpPost]
+        [Route("api/TeacherData/AddTeacher")]
+        public void AddTeacher([FromBody]Teacher NewTeacher)
+        {
+            string query = "INSERT INTO teachers(teacherfname,teacherlname,employeenumber,hiredate,salary) VALUES (@teacherfname, @teacherlname,@employeenumber,@hiredate,@salary)";
+            MySqlConnection Connection = School.AccessDatabase();
+            Connection.Open();
+            // creating a command
+            MySqlCommand command = Connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("@teacherfname", NewTeacher.TeacherFname);
+            command.Parameters.AddWithValue("@teacherlname", NewTeacher.TeacherLname);
+            command.Parameters.AddWithValue("@employeenumber", NewTeacher.EmployeeNumber);
+            command.Parameters.AddWithValue("@hiredate", NewTeacher.TeacherHireDate);
+            command.Parameters.AddWithValue("@salary", NewTeacher.TeacherSalary);
+            command.Prepare();
+            // execute the INSERT
+            command.ExecuteNonQuery();
+            // add the article into the database
+            Connection.Close();
+            // we can return something here
+        }
+
+
+        /// <summary>
+        /// This method receives teacher information and deletes it from the database.
+        /// </summary>
+        /// <param name="TeacherId">
+        /// the primary key of the teachers</param>
+        /// <returns></returns>
+        /// <example>
+        /// POST api/TeacherData/DeleteTeacher
+        /// </example>
+
+        [HttpGet]
+        [Route("api/TeacherData/DeleteTeacher/{TeacherId}")]
+        public void DeleteTeacher(int TeacherId)
+        {
+            string query = "DELETE FROM teachers WHERE teacherid=@id";
+
+            MySqlConnection Connection = School.AccessDatabase();
+            Connection.Open();
+            // creating a command
+            MySqlCommand command = Connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("@id", TeacherId);
+
+            command.Prepare();
+            // execute the INSERT
+            command.ExecuteNonQuery();
+            // add the article into the database
+            Connection.Close();
+
+            // return "I want to delete this teacher";
         }
     }
 }

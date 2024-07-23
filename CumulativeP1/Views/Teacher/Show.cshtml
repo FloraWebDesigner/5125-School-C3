@@ -2,15 +2,20 @@
 @{
     ViewBag.Title = "Show";
 }
+<div class="navlink">
+    <a href="/Teacher/List">Back To Teacher List</a>
+    <a href="/Teacher/DeleteConfirm/@Model.TeacherId">Delete</a>
+</div>
+<div class="main-content">
 
 <h2>Detailed Teacher Information</h2>
 <p><em>Please adhere to the Faculty Employee Code and keep the following information confidential.</em></p>
 
-<div>Name: <h4>@Model.TeacherName</h4></div>
-<div>Employee ID: <h4>@Model.EmployeeNumber</h4></div>
-<div>Hire Date: <h4>@Model.TeacherHireDate</h4></div>
-<div>Salary: <h4>@Model.TeacherSalary</h4></div>
-<div>Class ID: <h4>@Model.ClassCode</h4></div>
-<div>Course: <h4>@Model.ClassName</h4></div>
+<div>Name: <h5>@Model.TeacherName</h5></div>
+<div>Employee ID: <h5>@Model.EmployeeNumber</h5></div>
+<div>Hire Date: <h5>@Model.TeacherHireDate</h5></div>
+<div>Salary: <h5>@Model.TeacherSalary</h5></div>
+<div>Class ID: <h5>@Model.ClassCode</h5></div>
+<div>Course: <h5>@Model.ClassName</h5></div>
 
-<div><a href="/Teacher/List">Back To Teacher List</a></div>
+</div>

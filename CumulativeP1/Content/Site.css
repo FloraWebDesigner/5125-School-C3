@@ -1,11 +1,16 @@
 ﻿/* Set padding to keep content from hitting the edges */
+
 .body-content {
     margin-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
-
+    background-color: #000033;
+    color:white;
 }
 
+h1, h2, h3,h4,h5,.highlight{
+    color: #cc9900;
+}
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
@@ -13,6 +18,82 @@ textarea {
     max-width: 280px;
 }
 
-.highlight {
-    color:deeppink;
+.mybutton {
+    border: none;
+    background-color: #006cf4;
+    color:white;
+    text-align: center;
+    padding: 10px 30px;
+    border-radius: 8px;
+    margin: 20px auto;
+}
+
+    .mybutton:hover {
+        background-color: #cc9900;
+        color: white;
+    }
+.myinput {
+    width: 100%;
+    max-width: 400px;
+    height: 45px;
+    padding: 10px;
+}
+
+.navlink{
+    margin:0 auto;
+    padding-top: 15px;
+    width: 70%;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    column-gap:100px;
+}
+
+
+
+.main-content{
+    width:70%;
+    margin:0 auto;
+    padding-top:20px;
+}
+
+.white{
+    color:white;
+}
+
+.newTeacher{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    margin:0 auto;
+    padding:10px;
+}
+
+.newTeacher div{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    align-items:center;
+    }
+
+.newTeacher label{
+    margin-left:10px;
+    flex:1 0 0;
+    text-align:left;
+}
+
+.newinput {
+    margin-right: 100px;
+    flex: 2.5 0 0;
+    text-align: right;
+}
+
+#fnameRequired,
+#lnameRequired,
+#employeeNumRequired,
+#salaryRequired,
+#hireDateRequired{
+    display: none;
+    color: orangered;
+    text-align: right;
 }
