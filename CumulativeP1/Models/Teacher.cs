@@ -27,5 +27,9 @@ namespace CumulativeP1.Models
         // public List<Class>ClassName { get; set; }
         // public List<Class> ClassCode { get; set; }
 
+
+        //parameter-less constructor function
+        public Teacher() { }
+
     }
 }

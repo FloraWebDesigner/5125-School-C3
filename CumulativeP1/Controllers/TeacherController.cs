@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CumulativeP1.Models;
+using System.Web.Http.Cors;
 
 namespace CumulativeP1.Controllers
 {
@@ -64,11 +65,17 @@ namespace CumulativeP1.Controllers
         }
         public ActionResult New()
         {
-
-
             return View();
 
         }
+
+        //GET : /Teacher/Ajax_New
+        public ActionResult Ajax_New()
+        {
+            return View();
+
+        }
+
 
         [HttpGet]
         [Route("/teacher/ConfirmDelete/{TeacherId}")]

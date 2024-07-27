@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using CumulativeP1.Models;
 using MySql.Data.MySqlClient;
+using System.Web.Http.Cors;
 
 namespace CumulativeP1.Controllers
 {
@@ -33,6 +34,8 @@ namespace CumulativeP1.Controllers
 
         [HttpGet]
         [Route("api/TeacherData/ListTeachers/{SearchKey}")]
+
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
         public List<Teacher> ListTeachers(string SearchKey)
         {
             // Create an instance of a connection
@@ -99,6 +102,7 @@ namespace CumulativeP1.Controllers
 
         [HttpGet]
         [Route("api/TeacherData/FindTeacher/{TeacherId}")]
+        [EnableCors(origins:"*",methods:"*",headers:"*")]
         public Teacher FindTeacher(int TeacherId)
         {
             Teacher NewTeacher = new Teacher();
@@ -186,6 +190,7 @@ namespace CumulativeP1.Controllers
         /// </example>
         [HttpPost]
         [Route("api/TeacherData/AddTeacher")]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
         public void AddTeacher([FromBody]Teacher NewTeacher)
         {
             string query = "INSERT INTO teachers(teacherfname,teacherlname,employeenumber,hiredate,salary) VALUES (@teacherfname, @teacherlname,@employeenumber,@hiredate,@salary)";

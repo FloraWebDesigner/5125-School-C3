@@ -1,4 +1,9 @@
-﻿window.onload = pageReady;
+﻿
+
+
+
+/* my codes below                  */
+window.onload = pageReady;
 
 function pageReady() {
 	let TeacherFname = document.getElementById("TeacherFname");
