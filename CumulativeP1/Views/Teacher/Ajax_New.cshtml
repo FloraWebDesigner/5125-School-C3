@@ -41,15 +41,18 @@
         <label>Hire Date</label>
         <input type="date" name="TeacherHireDate" id="TeacherHireDate" class="newinput" />
     </div>
-
+    
 
     @{
-        // Again fail to make Ajax work / (ㄒoㄒ) / ~~
+// <!---It works!!!   0729-->
 
-            //AddTeacher() is a JS method defined in /Scripts/teachers.js
-    }
+//AddTeacher() is a JS method defined in /Scripts/teachers.js
+
+        <script src="~/Scripts/teachers.js">
+        </script>
+        }
     <div>
-        <button onclick="AddTeacher()">Add Teacher</button>
+       <button onclick="AddTeacher()">Add Teacher</button>
     </div>
 </div>
 

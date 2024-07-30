@@ -1,6 +1,6 @@
 ﻿// AJAX for teacher Add can go in here!
 // This file is connected to the project via Shared/_Layout.cshtml
-
+// it doen't work even I added http:// at the beginning
 
 function AddTeacher() {
 
@@ -14,7 +14,6 @@ function AddTeacher() {
 	// where is this request sent to?
 	// is the method GET or POST?
 	// what should we do with the response?
-
 	var TeacherFname = document.getElementById('TeacherFname').value;
 	var TeacherLname = document.getElementById('TeacherLname').value;
 	var EmployeeNumber = document.getElementById('EmployeeNumber').value;
@@ -29,7 +28,6 @@ function AddTeacher() {
 		"TeacherHireDate": TeacherHireDate
 	};
 
-
 	rq.open("POST", URL, true);
 	rq.setRequestHeader("Content-Type", "application/json");
 	rq.onreadystatechange = function () {
@@ -38,7 +36,7 @@ function AddTeacher() {
 			//request is successful and the request is finished
 
 			//nothing to render, the method returns nothing.
-
+			console.log(TeacherData);
 
 		}
 

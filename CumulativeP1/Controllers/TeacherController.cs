@@ -47,7 +47,12 @@ namespace CumulativeP1.Controllers
         public ActionResult Create(string TeacherFname, string TeacherLname, string EmployeeNumber, DateTime TeacherHireDate, decimal TeacherSalary)
         {
             Debug.WriteLine("The teacher's first name is " + TeacherFname);
+            Debug.WriteLine("The teacher's last name is " + TeacherLname);
             Debug.WriteLine("The teacher's hiredate is " + TeacherHireDate);
+            Debug.WriteLine("The teacher's employeenumber is " + EmployeeNumber);
+            Debug.WriteLine("The teacher's salary is " + TeacherSalary);
+
+
 
             //todo: add the teacher to the database
             TeacherDataController controller = new TeacherDataController();
@@ -70,12 +75,20 @@ namespace CumulativeP1.Controllers
         }
 
         //GET : /Teacher/Ajax_New
+        // updated on 0729: Ajax does not work
         public ActionResult Ajax_New()
         {
             return View();
 
         }
 
+        //GET : /Teacher/Ajax_Show
+        // updated on 0729: Ajax does not work
+        public ActionResult Ajax_Show()
+        {
+            return View();
+
+        }
 
         [HttpGet]
         [Route("/teacher/ConfirmDelete/{TeacherId}")]

@@ -46,113 +46,124 @@
 
 </div>
 
+
 <!--
-    
+<script src="~/Scripts/newteacher.js"></script>
 Fail to make JS validation work /(ㄒoㄒ)/~~
-    <script="~/bundles/newteacher"></script>
     -->
 <script>
 
- /*   window.onload = pageReady;
+    /*   Created debug.writeline in MVC controller, the browser shows:"The parameters dictionary contains a null entry for parameter 'TeacherHireDate' of non-nullable type 'System.DateTime' for method 'System.Web.Mvc.ActionResult Create(System.String, System.String, System.String, System.DateTime, System.Decimal)' in 'CumulativeP1.Controllers.TeacherController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+   Parameter name: parameters"
+           Dugbug Output failed to catch anything.
 
-    function pageReady() {
+           On the network browser: 500 Internal Server Error.
+           I'm kind of confused:
+           how does the js and server work? I mean the order... If js first, my codes here would stop the form to submit and I even create focus() on invalid fields. But it turns out to be a 500-server-error page.
+           If server runs first after I submit the form, we do have blank/invalid fields, I assume that the data failed to process MVC controller from this View as no debug output.
+
     */
-        let TeacherFname = document.getElementById("TeacherFname");
-        let TeacherLname = document.getElementById("TeacherLname");
-        let EmployeeNumber = document.getElementById("EmployeeNumber");
-        let TeacherSalary = document.getElementById("TeacherSalary");
-        let TeacherHireDate = document.getElementById("TeacherHireDate");
-        let btn = document.getElementById("AddTeacher");
-        // btn.onsubmit = alert("test");
 
-        let fnameRequired = document.getElementById("fnameRequired");
-        let lnameRequired = document.getElementById("lnameRequired");
-        let employeeNumRequired = document.getElementById("employeeNumRequired");
-        let salaryRequired = document.getElementById("salaryRequired");
-        let hireDateRequired = document.getElementById("hireDateRequired");
+    /*   window.onload = pageReady;
 
-        let isValid = true;
+       function pageReady() {
+       */
+    let TeacherFname = document.getElementById("TeacherFname");
+    let TeacherLname = document.getElementById("TeacherLname");
+    let EmployeeNumber = document.getElementById("EmployeeNumber");
+    let TeacherSalary = document.getElementById("TeacherSalary");
+    let TeacherHireDate = document.getElementById("TeacherHireDate");
+    let btn = document.getElementById("AddTeacher");
+    // btn.onsubmit = alert("test");
 
-        // Employee Number starts with the letter 'T' followed by three digits.
-        function employeeNumRegEx(EmployeeNumber) {
-            let employeeNumRegEx = /^T\d{3}$/;
-            return employeeNumRegEx.test(EmployeeNumber.value);
+    let fnameRequired = document.getElementById("fnameRequired");
+    let lnameRequired = document.getElementById("lnameRequired");
+    let employeeNumRequired = document.getElementById("employeeNumRequired");
+    let salaryRequired = document.getElementById("salaryRequired");
+    let hireDateRequired = document.getElementById("hireDateRequired");
+
+    let isValid = true;
+
+    // Employee Number starts with the letter 'T' followed by three digits.
+    function employeeNumRegEx(EmployeeNumber) {
+        let employeeNumRegEx = /^T\d{3}$/;
+        return employeeNumRegEx.test(EmployeeNumber.value);
+    }
+    // Valid salary is a number less than 100.
+    function salaryRegEx(TeacherSalary) {
+        let salaryRegEx = /^\d{2}(\.\d{1,2})?$/;
+        return salaryRegEx.test(TeacherSalary.value);
+    }
+
+    function formValidation() {
+        // validate first name
+        if (TeacherFname.value === "") {
+            TeacherFname.style.border = "2px solid red";
+            fnameRequired.style.display = "block";
+            TeacherFname.focus();
+            isValid = false;
         }
-        // Valid salary is a number less than 100.
-        function salaryRegEx(TeacherSalary) {
-            let salaryRegEx = /^\d{2}(\.\d{1,2})?$/;
-            return salaryRegEx.test(TeacherSalary.value);
+        else {
+            TeacherFname.style.border = "1px solid grey";
+            fnameRequired.style.display = "none";
         }
-
-        function formValidation() {
-            // validate first name
-            if (TeacherFname.value === "") {
-                TeacherFname.style.border = "2px solid red";
-                fnameRequired.style.display = "block";
-                TeacherFname.focus();
-                isValid = false;
-            }
-            else {
-                TeacherFname.style.border = "1px solid grey";
-                fnameRequired.style.display = "none";
-            }
-            // validate last name
-            if (TeacherLname.value === "") {
-                TeacherLname.style.border = "2px solid red";
-                lnameRequired.style.display = "block";
-                TeacherLname.focus();
-                isValid = false;
-            }
-            else {
-                TeacherLname.style.border = "1px solid grey";
-                lnameRequired.style.display = "none";
-            }
-            // validate employee number
-            if (EmployeeNumber.value === "" || employeeNumRegEx(EmployeeNumber) === false) {
-                EmployeeNumber.style.border = "2px solid red";
-                employeeNumRequired.style.display = "block";
-                EmployeeNumber.focus();
-                isValid = false;
-            }
-            else {
-                EmployeeNumber.style.border = "1px solid grey";
-                employeeNumRequired.style.display = "none";
-            }
-            // validate salary
-            if (TeacherSalary.value === "" || salaryRegEx(TeacherSalary) === false) {
-                TeacherSalary.style.border = "2px solid red";
-                salaryRequired.style.display = "block";
-                TeacherSalary.focus();
-                isValid = false;
-            }
-            else {
-                TeacherSalary.style.border = "1px solid grey";
-                salaryRequired.style.display = "none";
-            }
-            // validate hire date
-            if (TeacherHireDate.value === "") {
-                TeacherHireDate.style.border = "2px solid red";
-                hireDateRequired.style.display = "block";
-                TeacherHireDate.focus();
-                isValid = false;
-            }
-            else {
-                TeacherHireDate.style.border = "1px solid grey";
-                hireDateRequired.style.display = "none";
-            }
-            return isValid;
+        // validate last name
+        if (TeacherLname.value === "") {
+            TeacherLname.style.border = "2px solid red";
+            lnameRequired.style.display = "block";
+            TeacherLname.focus();
+            isValid = false;
         }
-        function onSubmit(event) {
-            if (!formValidation()) {
-                event.preventDefault(event);
-            }
+        else {
+            TeacherLname.style.border = "1px solid grey";
+            lnameRequired.style.display = "none";
         }
+        // validate employee number
+        if (EmployeeNumber.value === "" || employeeNumRegEx(EmployeeNumber) === false) {
+            EmployeeNumber.style.border = "2px solid red";
+            employeeNumRequired.style.display = "block";
+            EmployeeNumber.focus();
+            isValid = false;
+        }
+        else {
+            EmployeeNumber.style.border = "1px solid grey";
+            employeeNumRequired.style.display = "none";
+        }
+        // validate salary
+        if (TeacherSalary.value === "" || salaryRegEx(TeacherSalary) === false) {
+            TeacherSalary.style.border = "2px solid red";
+            salaryRequired.style.display = "block";
+            TeacherSalary.focus();
+            isValid = false;
+        }
+        else {
+            TeacherSalary.style.border = "1px solid grey";
+            salaryRequired.style.display = "none";
+        }
+        // validate hire date
+        if (TeacherHireDate.value === "") {
+            TeacherHireDate.style.border = "2px solid red";
+            hireDateRequired.style.display = "block";
+            TeacherHireDate.focus();
+            isValid = false;
+        }
+        else {
+            TeacherHireDate.style.border = "1px solid grey";
+            hireDateRequired.style.display = "none";
+        }
+        return isValid;
+    }
+    function onSubmit(event) {
+        if (!formValidation()) {
+            event.preventDefault(event);
+        }
+    }
 
-        btn.onsubmit = onSubmit;
+    btn.onsubmit = onSubmit;
 
-        
 
-  //  }
+
+    //  }
 
 
 
