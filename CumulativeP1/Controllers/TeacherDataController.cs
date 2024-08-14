@@ -33,10 +33,10 @@ namespace CumulativeP1.Controllers
 
 
         [HttpGet]
-        [Route("api/TeacherData/ListTeachers/{SearchKey}")]
+        [Route("api/TeacherData/ListTeachers/{SearchKey?}")]
 
         [EnableCors(origins: "*", methods: "*", headers: "*")]
-        public List<Teacher> ListTeachers(string SearchKey)
+        public List<Teacher> ListTeachers(string SearchKey = null)
         {
             // Create an instance of a connection
             MySqlConnection Connection = School.AccessDatabase();
@@ -48,7 +48,8 @@ namespace CumulativeP1.Controllers
             MySqlCommand Command = Connection.CreateCommand();
 
             //SQL QUERY
-            Command.CommandText = "Select * from teachers where lower (teacherfname) like lower (@key) or lower (teacherlname) like lower(@key) or lower(concat(teacherfname, ' ', teacherlname)) like lower (@key)";
+            // update on 0814 according to Christine's feedback   ------------- works well
+            Command.CommandText = "Select * from teachers where lower (teacherfname) like lower (@key) or lower (teacherlname) like lower(@key) or lower(concat(teacherfname, ' ', teacherlname)) like lower (@key) or lower (employeenumber) like lower(@key) or CAST(salary AS CHAR) LIKE @key or DATE_FORMAT(hiredate, '%Y-%m-%d %H:%i:%s') LIKE @key";
 
             // Use @key to avoid error outcome of special symbol
             Command.Parameters.AddWithValue("@key", "%"+SearchKey+"%");
@@ -89,14 +90,14 @@ namespace CumulativeP1.Controllers
         }
 
         /// <summary>
-        /// This controller will access to a teacher's name, employee number, hire date, salary, classid and classname.
+        /// This controller will access to a teacher's name, employee number, hire date, salary, courseid and coursename.
         /// </summary>
         /// <param name="TeacherId">the primary key in the database</param>
         /// <returns>one teacher's properties.</returns>
         /// <example>
         /// api/TeacherData/FindTeacher/7
         /// TeacherId=7
-        /// Name:Shannon Barton;Employee ID:T397;Hire Date:2013-08-04 12:00:00 AM;Salary:64.70;Class ID:http5104;Course:Digital Design
+        /// Name:Shannon Barton;Employee ID:T397;Hire Date:2013-08-04 12:00:00 AM;Salary:64.70;Course ID:http5104;Course:Digital Design
         /// </example>
 
 
@@ -138,8 +139,8 @@ namespace CumulativeP1.Controllers
 
                 // use Loop to get data from database class table, seems one-to-many relationship...
                 // Class NewClass = new Class();
-                String ClassName = ResultSet["classname"].ToString();
-                String ClassCode = ResultSet["classcode"].ToString();
+                String CourseName = ResultSet["classname"].ToString();
+                String CourseCode = ResultSet["classcode"].ToString();
 
 
                 //NewClass.ClassCode = ClassCode;
@@ -158,10 +159,10 @@ namespace CumulativeP1.Controllers
                 NewTeacher.TeacherFname = TeacherFname;
                 NewTeacher.TeacherLname = TeacherLname;
 
-                if (ClassCode == null || ClassCode=="") { NewTeacher.ClassCode = "Not Assigned"; }
-                else { NewTeacher.ClassCode = ClassCode; }
-                if (ClassName == null || ClassName == "") { NewTeacher.ClassName = "Not Assigned"; }
-                else { NewTeacher.ClassName = ClassName; }
+                if (CourseCode == null || CourseCode=="") { NewTeacher.CourseCode = "Not Assigned"; }
+                else { NewTeacher.CourseCode = CourseCode; }
+                if (CourseName == null || CourseName == "") { NewTeacher.CourseName = "Not Assigned"; }
+                else { NewTeacher.CourseName = CourseName; }
 
                 // Unable to get multiple classes...
 
@@ -181,11 +182,11 @@ namespace CumulativeP1.Controllers
         /// POST: api/TeacherData/AddTeacher ->{Teacher Object}
         /// POST: CONTENT /REQUEST BODY:
         /// {
-        /// Name:Shannon Barton;
-        /// Employee ID:T397;
-        /// Hire Date:2013-08-04 12:00:00 AM;
-        /// Salary:64.70;
-        /// Class ID:http5104;
+        /// Name:Shannon Barton,
+        /// Employee ID:T397,
+        /// Hire Date:2013-08-04 12:00:00 AM,
+        /// Salary:64.70,
+        /// Course ID:http5104,
         /// Course:Digital Design
         /// </example>
         [HttpPost]
@@ -244,5 +245,55 @@ namespace CumulativeP1.Controllers
 
             // return "I want to delete this teacher";
         }
-    }
+
+
+        // Clone from my C2 project and EDITTEAHCER work well -----  0814
+        //
+
+
+        /// <summary>
+        /// Updates an Teacher on the MySQL Database. 
+        /// </summary>
+        /// <param name="TeacherInfo">An object with fields that map to the columns of the teacher's table.</param>
+        /// <example>
+        /// POST api/TeacherData/EditTeacher/2
+        /// FORM DATA / POST DATA / REQUEST BODY 
+        /// {
+        ///	"TeacherFname":"Cathrine",
+        ///	"TeacherLname":"Cum",
+        ///	"EmployeeNumber":"T380",
+        ///	"TeacherHireDate":"2014-11-1"
+        ///	"TeacherSalary":"59.84"
+        /// }
+        /// </example>
+        //POST: api/TeacherData/EditTeacher/{TeacherId}
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void EditTeacher(int id, [FromBody] Teacher TeacherInfo)
+        {
+
+            string query =
+                "UPDATE teachers set teacherfname=@teacherfname,teacherlname=@teacherlname,employeenumber=@employeenumber,hiredate=@hiredate,salary=@salary WHERE teacherid=@teacherid";
+            MySqlConnection Connection = School.AccessDatabase();
+            Connection.Open();
+            // creating a command
+            MySqlCommand command = Connection.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("@teacherfname", TeacherInfo.TeacherFname);
+            command.Parameters.AddWithValue("@teacherlname", TeacherInfo.TeacherLname);
+            command.Parameters.AddWithValue("@employeenumber", TeacherInfo.EmployeeNumber);
+            command.Parameters.AddWithValue("@hiredate", TeacherInfo.TeacherHireDate);
+            command.Parameters.AddWithValue("@salary", TeacherInfo.TeacherSalary);
+            // add teacher id as the get id
+            command.Parameters.AddWithValue("@teacherid", id);
+
+            command.Prepare();
+            // execute the INSERT
+            command.ExecuteNonQuery();
+            // add the article into the database
+
+            Connection.Close();
+            // we can return something here
+        }
+        }
 }

@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "Ajax_List";
+}
+
+<div class="navlink">
+    <a href="/Teacher/New">Add New Teacher</a>
+    <a href="/Course/List">Go to Class Overview</a>
+</div>
+<div class="main-content">
+    <h2>Ajax List of Teachers</h2>
+
+    <div>
+        <input type="text" id="SearchKey" name="SearchKey" class="myinput" placeholder="please enter teacher's name" autocomplete="off" onkeyup="_ListTeachers(this);" />
+    </div>
+    <div>
+        <button onclick="ListTeachers()">search</button>
+    </div>
+    <div id="listteachers">
+    </div>
+
+    <script src="~/Scripts/teachers.js">
+    </script>
+
+
+
+</div>

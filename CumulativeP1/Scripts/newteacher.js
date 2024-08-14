@@ -96,6 +96,7 @@ function pageReady() {
             }
         }
     
-        btn.onsubmit=onSubmit;
+    // in case any error stopped running
+    // btn.onsubmit = onSubmit;
 
 }

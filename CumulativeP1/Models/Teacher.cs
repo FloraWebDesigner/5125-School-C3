@@ -16,8 +16,9 @@ namespace CumulativeP1.Models
         public decimal TeacherSalary { get; set; }
         public DateTime TeacherHireDate { get; set; }
         public int TeacherId { get; set; }
-        public string ClassName { get; set; }
-        public string ClassCode {  get; set; }
+        // updated course from previous "class" according to Christine's feedback on 0814
+        public string CourseName { get; set; }
+        public string CourseCode {  get; set; }
 
         // added on 7/22 to get new teacher
         public string TeacherFname { get; set; }

@@ -7,36 +7,36 @@ using System.Web.Mvc;
 
 namespace CumulativeP1.Controllers
 {
-    public class ClassController : Controller
+    public class CourseController : Controller
     {
-        // POST: Class/show/{classid}
-        public ActionResult Show(int ClassId)
+        // POST: Course/show/{courseid}
+        public ActionResult Show(int CourseId)
         {
 
             // work with the class data controller
-            ClassDataController Controller = new ClassDataController();
+            CourseDataController Controller = new CourseDataController();
 
             //call the find student method to get all the students in this class
-            List<Student> NewStudent = Controller.FindStudent(ClassId);
+            List<Student> NewStudent = Controller.FindStudent(CourseId);
 
             //pass along the FindStudent to the view
             //Views/Class/Show.cshtml
             return View(NewStudent);
         }
 
-        // GET: class/list/{SearchKey?}
+        // GET: course/list/{SearchKey?}
         public ActionResult List(string SearchKey=null)
         {
-            // work with the class data controller
-            ClassDataController controller = new ClassDataController();
+            // work with the course data controller
+            CourseDataController controller = new CourseDataController();
 
-            //call the list classes method
-            List<Class> Classes = controller.ListClass(SearchKey);
+            //call the list courses method
+            List<Course> Courses = controller.ListCourse(SearchKey);
 
             //pass along the List<Class> to the view
-            //Views/Class/List.cshtml
+            //Views/Course/List.cshtml
             ViewData["SearchKey"] = SearchKey;
-            return View(Classes);
+            return View(Courses);
         }
     }
 }

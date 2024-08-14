@@ -26,8 +26,12 @@
 
     @foreach (var teacher in Model)
     {
-        <div><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherName</a></div>
-    }
-</div>
+        <div class="listitem row">
+            <div class="col-md-12"><a href="/Teacher/Show/@teacher.TeacherId">@teacher.TeacherName</a></div>
+        </div>
+     }
+
+    </div>
+       
 
 
